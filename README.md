@@ -6,7 +6,7 @@ This package is pip installable, but can most easily be
 installed using Anaconda, e.g.:
 
 ```bash
-wget https://github.com/cunglabmit/leica2tif/environment.yaml
+wget https://raw.githubusercontent.com/chunglabmit/leica2tif/master/environment.yaml
 conda env create -f environment.yaml
 ```
 

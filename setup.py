@@ -22,7 +22,7 @@ setup(
         'Programming Language :: Python :: 3.5'
     ],
     install_requires=[
-        "bioformats",
+        "python-bioformats",
         "javabridge",
         "tifffile",
         "tqdm"

@@ -52,7 +52,7 @@ def main(args=sys.argv[1:]):
     javabridge.start_vm(class_path=bioformats.JARS)
     try:
         with bioformats.ImageReader(opts.input) as rdr:
-            if opts.series != 0:
+            if opts.series is not None:
                 series = opts.series
                 rdr.rdr.setSeries(series)
             else:
