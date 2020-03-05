@@ -1,0 +1,15 @@
+name: leica2tif
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - openjdk
+  - cython
+  - pip
+  - tifffile
+  - tqdm
+  - pip:
+      - javabridge
+      - python-bioformats
+      - https://github.com/chunglabmit/leica2tif/archive/master.zip#egg=leica2tif
