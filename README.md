@@ -22,7 +22,8 @@ leica2tif \
   [--c <channel>] \
   [--t-min <t-min>] \
   [--t-max <t-max>] \
-  [--compression <compression]
+  [--compression <compression>] \
+  [--dtype <dtype>]
 ```
 where
 * **lif-file** is the path to the Leica file.
@@ -39,3 +40,6 @@ where
 * **t-min** read time frames starting at this t (default 0).
 * **t-max** read time frames up until this t.
 * **compression** compression level (0-9) for tiffs, defaults to 3.
+* **dtype** is the pixel data type for the output. To convert a floating-
+point .lif file to 16 bit TIFF, use "--dtype uint16". The data will be
+  scaled from floating point 0-1 to the integer data type.

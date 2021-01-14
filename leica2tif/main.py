@@ -5,6 +5,8 @@ import os
 import bioformats
 import javabridge
 import sys
+
+import numpy as np
 import tifffile
 import tqdm
 
@@ -44,6 +46,8 @@ def parse_args(args=sys.argv[1:]):
                         help="Compression to use when writing tiff files",
                         default=3,
                         type=int)
+    parser.add_argument("--dtype",
+                        help="The numpy pixel datatype, for instance uint16")
     return parser.parse_args(args)
 
 
@@ -86,6 +90,11 @@ def main(args=sys.argv[1:]):
                 path = opts.output_pattern.format(c=c, z=z, t=t)
                 if not os.path.exists(os.path.dirname(path)):
                     os.mkdir(os.path.dirname(path))
+                if opts.dtype is not None:
+                    dtype = getattr(np, opts.dtype)
+                    if img.dtype.name.startswith("float"):
+                        img = img * np.iinfo(dtype).max
+                    img = img.astype(dtype)
                 tifffile.imsave(path, img, compress=opts.compression)
     finally:
         javabridge.kill_vm()
