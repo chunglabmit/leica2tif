@@ -129,9 +129,9 @@ def parse_args(args=sys.argv[1:]):
                         help="The numpy pixel datatype")
     parser.add_argument("--stack", action='store_true',
                         help="Output is a single collated tiff: imagej hyperstack.")
-    parser.add_argument("--output", 
-                        help="A single output filename for the collated tiff stack.",
-                        default="./output{srs:03d}.tiff")
+    parser.add_argument("--outdir", 
+                        help="Output directory for the collated tiff stack",
+                        default='./')
     return parser.parse_args(args)
 
 
@@ -250,9 +250,10 @@ def main(args=sys.argv[1:]):
                     tifffile.imsave(path, img, compress=opts.compression)
 
             if opts.stack:
-                path = opts.output.format(srs=srs)
-                if not os.path.exists(os.path.dirname(path)):
-                    os.mkdir(os.path.dirname(path))
+                path = Path(opts.outdir)/(name+'.tiff')
+                path.parent.mkdir(parents=True, exist_ok=True)
+                #if not os.path.exists(os.path.dirname(path)):
+                #    os.mkdir(os.path.dirname(path))
 
                 ijmeta = {'spacing': physical_size_z, 'unit': 'micron', 'axes':'TZCYX', 'mode':'composite'}
                 ijtags = imagej_metadata_tags({'LUTs':LUT_CYCLE[:len(ch)]}, '>') 
