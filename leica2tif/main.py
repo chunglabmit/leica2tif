@@ -224,18 +224,16 @@ def main(args=sys.argv[1:]):
             iterator = list(itertools.product(ch, range(z0, z1), range(t0, t1)))
             for i, (c, z, t) in tqdm.tqdm(
                     enumerate(iterator), total=len(iterator)):
+
+                dtype = opts.dtype or pxtype
                 img = rdr.read(c=c, z=z, t=t, series=srs)
 
-                if opts.dtype is not None:
-                    try: vmax = np.iinfo(opts.dtype).max
-                    except ValueError: vmax = 1.0
+                try: vmax = np.iinfo(dtype).max
+                except ValueError: vmax = 1.0
 
-                    if img.dtype.name.startswith("float"):
-                        img = img * vmax
-
-                    img = img.astype(opts.dtype)
-
-                dtype = opts.dtype or img.dtype
+                if img.dtype.name.startswith("float"):
+                    img = img * vmax
+                    img = img.astype(dtype)
 
                 # imagej hyperstack must be in TZCYXS order
                 if opts.stack:
@@ -252,8 +250,6 @@ def main(args=sys.argv[1:]):
             if opts.stack:
                 path = Path(opts.outdir)/(name+'.tiff')
                 path.parent.mkdir(parents=True, exist_ok=True)
-                #if not os.path.exists(os.path.dirname(path)):
-                #    os.mkdir(os.path.dirname(path))
 
                 ijmeta = {'spacing': physical_size_z, 'unit': 'micron', 'axes':'TZCYX', 'mode':'composite'}
                 ijtags = imagej_metadata_tags({'LUTs':LUT_CYCLE[:len(ch)]}, '>') 
