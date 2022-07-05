@@ -2,7 +2,7 @@ name: leica2tif
 channels:
   - conda-forge
 dependencies:
-  - python
+  - python=3.9
   - numpy
   - openjdk
   - cython
